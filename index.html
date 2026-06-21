@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1,
+               user-scalable=no">
+
+<title>❤️ 你願意嗎？ ❤️</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body{
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#ffe4ec;
+    font-family:-apple-system,BlinkMacSystemFont,
+                 "PingFang TC",
+                 sans-serif;
+}
+
+.container{
+    width:90%;
+    text-align:center;
+}
+
+h1{
+    font-size:2rem;
+    color:#ff2d75;
+    margin-bottom:20px;
+}
+
+#msg{
+    min-height:40px;
+    margin-bottom:20px;
+    font-size:1.1rem;
+    color:#666;
+}
+
+#yes{
+    background:#ff2d75;
+    color:white;
+    border:none;
+    border-radius:18px;
+    padding:18px 40px;
+    font-size:1.4rem;
+    font-weight:bold;
+    transition:all .25s;
+}
+
+#no{
+    position:fixed;
+    border:none;
+    border-radius:18px;
+    padding:18px 40px;
+    background:#777;
+    color:white;
+    font-size:1.2rem;
+    transition:all .25s;
+}
+
+.heart{
+    position:fixed;
+    font-size:2rem;
+    animation:fly 4s linear forwards;
+}
+
+@keyframes fly{
+    from{
+        transform:translateY(0);
+        opacity:1;
+    }
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+
+.success{
+    text-align:center;
+    padding:30px;
+}
+
+.success h1{
+    font-size:3rem;
+}
+
+.success p{
+    margin-top:15px;
+    font-size:1.3rem;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>你願意當我的另一半嗎？❤️</h1>
+
+    <div id="msg"></div>
+
+    <button id="yes">願意 ❤️</button>
+
+</div>
+
+<button id="no">不要 😭</button>
+
+<script>
+
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const msg=document.getElementById("msg");
+
+let yesScale=1;
+let noScale=1;
+
+const words=[
+"再考慮一下嘛🥺",
+"真的不要嗎😭",
+"我會很難過耶💔",
+"拜託啦❤️",
+"最後一次機會🥹",
+"按願意比較好喔😆",
+"不要一直按不要啦😂",
+"其實你想按願意吧😏"
+];
+
+function moveButton(){
+
+    const w=window.innerWidth-no.offsetWidth;
+    const h=window.innerHeight-no.offsetHeight;
+
+    no.style.left=Math.random()*w+"px";
+    no.style.top=Math.random()*h+"px";
+}
+
+moveButton();
+
+function reject(){
+
+    msg.innerHTML=
+    words[Math.floor(Math.random()*words.length)];
+
+    yesScale*=1.2;
+    noScale*=0.8;
+
+    yes.style.transform=
+    `scale(${yesScale})`;
+
+    if(noScale<=0.05){
+
+        no.remove();
+
+        yes.style.position="fixed";
+        yes.style.left="0";
+        yes.style.top="0";
+        yes.style.width="100vw";
+        yes.style.height="100vh";
+        yes.style.fontSize="4rem";
+        yes.style.borderRadius="0";
+
+        msg.innerHTML="只剩這個可以選了❤️";
+
+        return;
+    }
+
+    no.style.transform=
+    `scale(${noScale})`;
+
+    moveButton();
+}
+
+no.addEventListener("click",reject);
+no.addEventListener("touchstart",moveButton);
+
+yes.addEventListener("click",()=>{
+
+    document.body.innerHTML=
+    `
+    <div class="success">
+        <h1>❤️ 我就知道 ❤️</h1>
+        <p>恭喜你做出了正確選擇 😆</p>
+    </div>
+    `;
+
+    setInterval(()=>{
+
+        const heart=document.createElement("div");
+
+        heart.className="heart";
+        heart.innerHTML="❤️";
+
+        heart.style.left=
+        Math.random()*window.innerWidth+"px";
+
+        heart.style.top=
+        window.innerHeight+"px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.remove();
+        },4000);
+
+    },150);
+
+});
+
+</script>
+
+</body>
+</html>
